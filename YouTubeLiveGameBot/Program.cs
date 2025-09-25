@@ -7,9 +7,12 @@
 
         public static async Task Main()
         {
-            I_BotControls = [new Adb(), new Nox(), new App()];
-            BotStartAndStabilityManager.Check(I_BotControls);
+            //I_BotControls = [new Adb(), new Nox(), new App()];
+            //BotStartAndStabilityManager.Check(I_BotControls);
+            Console.WriteLine(Path.GetFullPath("YouTube.Auth.Store"));
 
+            var youTubeService = await YouTubeOperations.AuthentifizierungsProzes.Authentifizierung();
+            await YouTubeOperations.ReadChat.ReadChatFromVideoID(youTubeService);         
             //_Devlop.DevlopHelper.TrackTouchEvents();
             while (true)
             {
@@ -18,8 +21,6 @@
                 Thread.Sleep(100);
             }
 
-            var youTubeService = await YouTubeOperations.AuthentifizierungsProzes.Authentifizierung();
-            await YouTubeOperations.ReadChat.ReadChatFromVideoID(youTubeService);         
         }
 
 

@@ -31,7 +31,7 @@ namespace YouTubeLiveGameBot.YouTubeOperations
                 HttpClientInitializer = credential,
                 ApplicationName = "LiveChatReader"
             });
-            using var youtubeService = youTubeService;
+            var youtubeService = youTubeService;
             return youTubeService;
         }
     }

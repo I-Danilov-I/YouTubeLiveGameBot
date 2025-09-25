@@ -40,7 +40,7 @@ namespace YouTubeLiveGameBot.YouTubeOperations
                 foreach (var message in chatResponse.Items)
                 {
                     string username = message.AuthorDetails.DisplayName;
-                    string text = message.Snippet.DisplayMessage;
+                    string text = message.Snippet.DisplayMessage; // Hier müssen ie BEfhle Abgefangen und zu ADB Weitergeben werden!!!
                     Console.WriteLine($"{username}: {text}");
                 }
 
