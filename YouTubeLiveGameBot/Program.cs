@@ -2,10 +2,37 @@
 {
     public static class Program
     {
+        public static List<IBotSystemManger> I_BotControls { get; private set; } = [];
+
+
         public static async Task Main()
         {
-                var youTubeService = await YouTubeOperations.AuthentifizierungsProzes.Authentifizierung();
-                await YouTubeOperations.ReadChat.ReadChatFromVideoID(youTubeService);
+            I_BotControls = [new Adb(), new Nox(), new App()];
+            BotStartAndStabilityManager.Check(I_BotControls);
+
+            //_Devlop.DevlopHelper.TrackTouchEvents();
+            while (true)
+            {
+                ClickAtTouchPositionWithHexa("000001df", "000002ea");
+                Console.WriteLine("I´m HIT!!!");
+                Thread.Sleep(100);
+            }
+
+            var youTubeService = await YouTubeOperations.AuthentifizierungsProzes.Authentifizierung();
+            await YouTubeOperations.ReadChat.ReadChatFromVideoID(youTubeService);         
+        }
+
+
+
+
+        public static void ClickAtTouchPositionWithHexa(string hexX, string hexY)
+        {
+            int x = int.Parse(hexX, System.Globalization.NumberStyles.HexNumber);
+            int y = int.Parse(hexY, System.Globalization.NumberStyles.HexNumber);
+
+            string adbCommand = $"shell input tap {x} {y}";
+            BOT.ExecuteAdbCommand(adbCommand);
+            //Thread.Sleep(BotSettings.TimeoutAfterComand);
         }
     }
 }
