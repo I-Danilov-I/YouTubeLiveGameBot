@@ -1,20 +1,18 @@
-﻿using YouTubeLiveGameBot.NoxOperations;
-
-namespace YouTubeLiveGameBot
+﻿namespace YouTubeLiveGameBot
 {
     public static class Program
     {
-        public static List<IBotSystemManger> I_BotControls { get; private set; } = [];
-
         public static async Task Main()
         {
-            //_Devlop.DevlopHelper.TrackTouchEvents();
-            I_BotControls = [new Adb(), new Nox(), new App()];
-            BotStartAndStabilityManager.Check(I_BotControls);
+            //NoxHandler.TrackTouchEvents();
+            //NoxHandler.StartNoxEmulator();
+            //NoxHandler.StartAdbServer();
+            //NoxHandler.StartApp();
 
-            Console.WriteLine(Path.GetFullPath("YouTube.Auth.Store"));
-            var youTubeService = await YouTubeOperations.AuthentifizierungsProzes.Authentifizierung();
-            await YouTubeOperations.ReadChat.ReadChatFromVideoID(youTubeService);         
+
+            await YouTubeLiveHandler.AuthenticateAsync("E:\\Visual Studio Projekte\\YouTubeLiveGameBot\\YouTubeLiveGameBot\\Secret\\client_secret.json");
+            var liveChatId = await YouTubeLiveHandler.GetLiveChatIdFromVideoIdAsync();
+            await YouTubeLiveHandler.ReadChatAsync(liveChatId!);         
         }
     }
 }
