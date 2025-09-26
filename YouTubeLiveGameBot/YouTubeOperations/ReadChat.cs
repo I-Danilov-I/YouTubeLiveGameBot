@@ -1,17 +1,15 @@
 ﻿using Google.Apis.YouTube.v3;
-
+using YouTubeLiveGameBot.NoxOperations;
 
 namespace YouTubeLiveGameBot.YouTubeOperations
 {
     internal static class ReadChat
     {
-        public static async Task ReadChatFromVideoID(YouTubeService youtubeService)
+        public static async Task<string?> ReadChatFromVideoID(YouTubeService youtubeService)
         {
-            // === 3️⃣ Video-ID eintragen ===
             Console.Write("Bitte die Video-ID deines Streams eingeben: ");
             string? videoId = Console.ReadLine();
 
-            // === 4️⃣ Live-Chat-ID abrufen ===
             var videoRequest = youtubeService.Videos.List("liveStreamingDetails");
             videoRequest.Id = videoId;
             var videoResponse = await videoRequest.ExecuteAsync();
@@ -19,14 +17,13 @@ namespace YouTubeLiveGameBot.YouTubeOperations
             if (videoResponse.Items.Count == 0)
             {
                 Console.WriteLine("Video nicht gefunden oder kein Live-Stream aktiv.");
-                return;
+                return null;
             }
 
             string liveChatId = videoResponse.Items[0].LiveStreamingDetails.ActiveLiveChatId;
             Console.WriteLine("Live-Chat-ID: " + liveChatId);
 
-            // === 5️⃣ Nachrichten kontinuierlich abrufen ===
-            string nextPageToken = null!;
+            string? nextPageToken = null;
 
             while (true)
             {
@@ -40,13 +37,24 @@ namespace YouTubeLiveGameBot.YouTubeOperations
                 foreach (var message in chatResponse.Items)
                 {
                     string username = message.AuthorDetails.DisplayName;
-                    string text = message.Snippet.DisplayMessage; // Hier müssen ie BEfhle Abgefangen und zu ADB Weitergeben werden!!!
+                    string text = message.Snippet.DisplayMessage;
                     Console.WriteLine($"{username}: {text}");
+
+                    // Hier prüfen ob "Hit" geschrieben wurde
+                    if (text == "Hit")
+                    {
+                        int i = 0;
+                        while (i < 10)
+                        {
+                            i++;
+                            BOT.ClickAtTouchPositionWithHexa("000001df", "000002ea");
+                            Console.WriteLine("Im HIT!");
+                        }
+                    }
                 }
 
                 nextPageToken = chatResponse.NextPageToken;
 
-                // Alle 30 Sekunden neue Nachrichten abrufen
                 await Task.Delay(30000);
             }
         }
