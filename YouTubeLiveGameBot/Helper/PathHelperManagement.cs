@@ -40,7 +40,7 @@ namespace YouTubeLiveGameBot.Helper
                 var config = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
 
                 // Prüfen, ob der Schlüssel "client_secret" vorhanden ist
-                if (config != null && config.TryGetValue("client_secret", out string? savedPath))
+                if (config != null && config.TryGetValue("path_client_secret", out string? savedPath))
                 {
                     // Prüfen, ob der gespeicherte Pfad nicht leer ist und die Datei existiert
                     if (!string.IsNullOrWhiteSpace(savedPath) && File.Exists(savedPath))

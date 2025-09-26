@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using YouTubeLiveGameBot.Logging;
 
-namespace YouTubeLiveGameBot
+namespace YouTubeLiveGameBot.NoxOperations
 {
     public interface IBotSystemManger
     {
@@ -31,7 +31,7 @@ namespace YouTubeLiveGameBot
         public static string GetInstalledPackages()
         {
             // Führe den ADB-Befehl aus, um die Liste der Pakete abzurufen
-            string output = BOT.ExecuteAdbCommand("shell pm list packages");
+            string output = ExecuteAdbCommand("shell pm list packages");
 
             if (string.IsNullOrEmpty(output))
             {
@@ -76,6 +76,15 @@ namespace YouTubeLiveGameBot
             {
                 return "";
             }
+        }
+
+        public static void ClickAtTouchPositionWithHexa(string hexX, string hexY)
+        {
+            int x = int.Parse(hexX, System.Globalization.NumberStyles.HexNumber);
+            int y = int.Parse(hexY, System.Globalization.NumberStyles.HexNumber);
+
+            string adbCommand = $"shell input tap {x} {y}";
+            ExecuteAdbCommand(adbCommand);
         }
 
     }
