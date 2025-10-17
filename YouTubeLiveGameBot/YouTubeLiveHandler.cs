@@ -17,11 +17,10 @@ namespace YouTubeLiveGameBot
 
             var credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
                 GoogleClientSecrets.FromStream(stream).Secrets,
-                new[]
-                {
+                [
                     YouTubeService.Scope.Youtube,
                     YouTubeService.Scope.YoutubeForceSsl
-                },
+                ],
                 "user",
                 CancellationToken.None,
                 new FileDataStore("YouTube.Auth.Store.FullAccess")
@@ -33,7 +32,7 @@ namespace YouTubeLiveGameBot
                 ApplicationName = "LiveChatReader"
             });
 
-            Console.WriteLine("✅ Authentifizierung abgeschlossen.");
+            Console.WriteLine("Authentifizierung abgeschlossen.");
         }
 
         // 2️⃣ LiveChat-ID vom Video holen
@@ -62,7 +61,7 @@ namespace YouTubeLiveGameBot
                 return null;
             }
 
-            Console.WriteLine($"✅ Live-Chat-ID gefunden: {liveChatId}");
+            Console.WriteLine($"Live-Chat-ID gefunden: {liveChatId}");
             return liveChatId;
         }
 
@@ -99,12 +98,12 @@ namespace YouTubeLiveGameBot
                                 await Task.Delay(100); 
                             }
                             Console.WriteLine($"{username}: HIT!");
-                            await SendMessageAsync(liveChatId, $"USER: {username} - HITING!!!");
+                            await SendMessageAsync(liveChatId, $"USER <<<{username}>>> HITING!!!");
                         }
                     }
 
                     nextPageToken = chatResponse.NextPageToken;
-                    await Task.Delay(5000); // 15 Sekunden warten
+                    await Task.Delay(30000); // 15 Sekunden warten
                 }
                 catch (Google.GoogleApiException ex) when (ex.HttpStatusCode == System.Net.HttpStatusCode.NotFound)
                 {
@@ -143,7 +142,7 @@ namespace YouTubeLiveGameBot
             {
                 var insertRequest = _youTubeService.LiveChatMessages.Insert(liveChatMessage, "snippet");
                 await insertRequest.ExecuteAsync();
-                Console.WriteLine($"✅ Nachricht gesendet: {message}");
+                Console.WriteLine($"Nachricht gesendet: {message}");
             }
             catch (Google.GoogleApiException ex) when (ex.HttpStatusCode == System.Net.HttpStatusCode.NotFound)
             {
