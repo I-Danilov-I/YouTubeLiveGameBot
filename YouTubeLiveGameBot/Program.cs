@@ -5,9 +5,9 @@
         public static async Task Main()
         {
             //NoxHandler.TrackTouchEvents();
-            //NoxHandler.StartNoxEmulator();
-            //NoxHandler.StartAdbServer();
-            //NoxHandler.StartApp();
+            NoxHandler.StartNoxEmulator();
+            NoxHandler.StartAdbServer();
+            NoxHandler.StartApp();
 
 
             await YouTubeLiveHandler.AuthenticateAsync("E:\\Visual Studio Projekte\\YouTubeLiveGameBot\\YouTubeLiveGameBot\\Secret\\client_secret.json");
