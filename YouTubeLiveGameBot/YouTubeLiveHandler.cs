@@ -90,6 +90,9 @@ namespace YouTubeLiveGameBot
                         await CommandsLiveChat.FastHits(text, username, liveChatId);
                     }
 
+                    await CommandsLiveChat.UpgradeAxe();
+                   
+
                     nextPageToken = chatResponse.NextPageToken;
                     await Task.Delay(30000); // Warten bevor Chat wieder gelesen wird
                 }
@@ -141,5 +144,40 @@ namespace YouTubeLiveGameBot
                 Console.WriteLine($"Fehler beim Senden der Nachricht: {ex.Message}");
             }
         }
+
+
+        public static async Task<int?> GetSubscriberCountAsync(string channelId)
+        {
+            if (_youTubeService == null)
+                throw new InvalidOperationException("Nicht authentifiziert.");
+
+            var channelsRequest = _youTubeService.Channels.List("statistics");
+            channelsRequest.Id = channelId;
+
+            var channelsResponse = await channelsRequest.ExecuteAsync();
+
+            if (channelsResponse.Items.Count == 0)
+            {
+                Console.WriteLine("Kanal nicht gefunden.");
+                return null;
+            }
+
+            var statistics = channelsResponse.Items[0].Statistics;
+
+            if (statistics.HiddenSubscriberCount == true)
+            {
+                Console.WriteLine("Die Abonnentenzahl ist verborgen.");
+                return null;
+            }
+
+            // Explizite Umwandlung von ulong? zu long?
+            return statistics.SubscriberCount.HasValue
+                ? (int?)statistics.SubscriberCount.Value
+                : null;
+        }
+
+
+
+
     }
 }

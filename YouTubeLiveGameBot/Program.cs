@@ -2,8 +2,9 @@
 {
     public static class Program
     {
-        public static string videoID = "8LYRm3LFDps";
-
+        public static string videoID = "p7PfVN6KdPU";
+        public static string channelID = "UCL2-DqRS5zojmDuABY9ffvg";
+        public static int aktuelleAboAnzahl = 4;
 
         public static async Task Main()
         {
