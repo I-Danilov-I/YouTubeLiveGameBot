@@ -36,12 +36,9 @@ namespace YouTubeLiveGameBot
         }
 
         // 2️⃣ LiveChat-ID vom Video holen
-        public static async Task<string?> GetLiveChatIdFromVideoIdAsync()
+        public static async Task<string?> GetLiveChatIdFromVideoIdAsync(string videoId)
         {
             if (_youTubeService == null) throw new InvalidOperationException("Nicht authentifiziert.");
-
-            Console.Write("Bitte die Video-ID eingeben: ");
-            string videoId = Console.ReadLine()!.Trim();
 
             var videoRequest = _youTubeService.Videos.List("liveStreamingDetails");
             videoRequest.Id = videoId;
@@ -85,37 +82,16 @@ namespace YouTubeLiveGameBot
 
                     foreach (var message in chatResponse.Items)
                     {
-                        string username = message.AuthorDetails.DisplayName;
+                        string username = message.AuthorDetails.DisplayName.ToUpper();
                         string text = message.Snippet.DisplayMessage;
-                        Console.WriteLine($"{username}: {text}");
 
-                        if (text == "Hit" || text == "hit")
-                        {
-                            Console.WriteLine($"{username}: HIT!");
-                            await SendMessageAsync(liveChatId, $"USER <<<{username}>>> HITING!!!");
-                            for (int i = 0; i < 5; i++)
-                            {
-                                // Beispielhafte Aktion, hier deine Nox-Handler-Funktion
-                                NoxHandler.ClickAtTouchPositionWithHexa("000001df", "000002ea");
-                                await Task.Delay(100); 
-                            }
-                        }
 
-                        if (text.Equals("Chat Control Game", StringComparison.OrdinalIgnoreCase))
-                        {
-                            Console.WriteLine($"{username}: Fast HITTING 50x!");
-                            await SendMessageAsync(liveChatId, $"USER <<<{username}>>> HITTING 50x!!!");
-                            for (int i = 0; i < 50; i++)
-                            {
-                                NoxHandler.ClickAtTouchPositionWithHexa("000001df", "000002ea");
-                                await Task.Delay(50);
-                            }
-                        }
-
+                        await CommandsLiveChat.HitStandart(text, username, liveChatId); // Standard Hit
+                        await CommandsLiveChat.FastHits(text, username, liveChatId);
                     }
 
                     nextPageToken = chatResponse.NextPageToken;
-                    await Task.Delay(30000); // 15 Sekunden warten
+                    await Task.Delay(30000); // Warten bevor Chat wieder gelesen wird
                 }
                 catch (Google.GoogleApiException ex) when (ex.HttpStatusCode == System.Net.HttpStatusCode.NotFound)
                 {
