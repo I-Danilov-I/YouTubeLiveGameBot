@@ -50,7 +50,10 @@
                 await Task.Delay(10000);
                 NoxHandler.ClickAtTouchPositionWithHexa("000001b8", "00000556"); // Nach dem Schmieden BEstätigen
                 await Task.Delay(4000);
-                NoxHandler.ClickAtTouchPositionWithHexa(" 000002f7", "000002b0"); // Beim Scheitern Klicke auf X (Verlassen)
+                NoxHandler.ClickAtTouchPositionWithHexa("000002f7", "000002b0"); // Beim Scheitern Klicke auf X (Verlassen)
+                await Task.Delay(4000);
+
+                NoxHandler.ClickAtTouchPositionWithHexa("000002f7", "000001ca"); // Wie gefällt dir die App Weggklicken
                 await Task.Delay(4000);
             }
         }
