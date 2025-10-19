@@ -90,7 +90,7 @@ namespace YouTubeLiveGameBot
                         await CommandsLiveChat.FastHits(text, username, liveChatId);
                     }
 
-                    await CommandsLiveChat.UpgradeAxe();
+                    await CommandsLiveChat.UpgradeAxe(liveChatId);
                    
 
                     nextPageToken = chatResponse.NextPageToken;

@@ -32,20 +32,25 @@
         }
 
 
-        public static async Task UpgradeAxe()
+        public static async Task UpgradeAxe(string liveChatId)
         {
             var aboAnzahlNew = await YouTubeLiveHandler.GetSubscriberCountAsync(Program.channelID);
-            Console.WriteLine("Aboanzahl: " + aboAnzahlNew);
+            //Console.WriteLine("Aboanzahl: " + aboAnzahlNew);
             if (aboAnzahlNew > Program.aktuelleAboAnzahl)
             {
                 // Neue Axt Erstellen 
                 Console.WriteLine("Aboanzahl hat sich geändert!!!");
+
+                await YouTubeLiveHandler.SendMessageAsync(liveChatId, $" [🧑🔔 We have New Follower 🔔 ] >> 🪓Axe 🚀Upgraiding...");
+
                 Program.aktuelleAboAnzahl = aboAnzahlNew.Value;
-                NoxHandler.ClickAtTouchPositionWithHexa("000000d5", "000005c0");
+                NoxHandler.ClickAtTouchPositionWithHexa("000000d5", "000005c0"); // Axe Schmieden
                 await Task.Delay(4000);
-                NoxHandler.ClickAtTouchPositionWithHexa("000001b5", "00000556");
+                NoxHandler.ClickAtTouchPositionWithHexa("000001b5", "00000556"); // Schmieden Bestätigen
                 await Task.Delay(10000);
-                NoxHandler.ClickAtTouchPositionWithHexa("000001b8", "00000556");
+                NoxHandler.ClickAtTouchPositionWithHexa("000001b8", "00000556"); // Nach dem Schmieden BEstätigen
+                await Task.Delay(4000);
+                NoxHandler.ClickAtTouchPositionWithHexa(" 000002f7", "000002b0"); // Beim Scheitern Klicke auf X (Verlassen)
                 await Task.Delay(4000);
             }
         }
