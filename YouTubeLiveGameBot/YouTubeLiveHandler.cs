@@ -91,15 +91,27 @@ namespace YouTubeLiveGameBot
 
                         if (text == "Hit" || text == "hit")
                         {
+                            Console.WriteLine($"{username}: HIT!");
+                            await SendMessageAsync(liveChatId, $"USER <<<{username}>>> HITING!!!");
                             for (int i = 0; i < 5; i++)
                             {
                                 // Beispielhafte Aktion, hier deine Nox-Handler-Funktion
                                 NoxHandler.ClickAtTouchPositionWithHexa("000001df", "000002ea");
                                 await Task.Delay(100); 
                             }
-                            Console.WriteLine($"{username}: HIT!");
-                            await SendMessageAsync(liveChatId, $"USER <<<{username}>>> HITING!!!");
                         }
+
+                        if (text.Equals("Chat Control Game", StringComparison.OrdinalIgnoreCase))
+                        {
+                            Console.WriteLine($"{username}: Fast HITTING 50x!");
+                            await SendMessageAsync(liveChatId, $"USER <<<{username}>>> HITTING 50x!!!");
+                            for (int i = 0; i < 50; i++)
+                            {
+                                NoxHandler.ClickAtTouchPositionWithHexa("000001df", "000002ea");
+                                await Task.Delay(50);
+                            }
+                        }
+
                     }
 
                     nextPageToken = chatResponse.NextPageToken;
